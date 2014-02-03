@@ -1,7 +1,7 @@
 This is a fork from [https://github.com/arachnys/cabot](https://github.com/arachnys/cabot) 
 
 
-This is meant to be deployed on Heroku. If most of your infrastructure are not hosted on AWS, it is actually a good option to put Cabot on Heroku! Another reason to use Heroku is because you can easily hook up new relic to monitor your cabot app.
+This is meant to be deployed on Heroku. If majority of your infrastructure is not on AWS, it is actually a good option to put Cabot on Heroku! Another reason to use Heroku is because you can easily hook up new relic to monitor your cabot app.
 
 <pre>
 heroku create
