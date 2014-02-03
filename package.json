@@ -1,0 +1,7 @@
+{
+  "name": "heroku-cabot",
+  "dependencies": {
+    "less": "~1.6.1",
+    "coffee-script": "~1.6.3"
+  }
+}
