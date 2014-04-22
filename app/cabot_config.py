@@ -17,3 +17,4 @@ CALENDAR_ICAL_URL = os.environ.get('CALENDAR_ICAL_URL', 'http://www.google.com/c
 WWW_HTTP_HOST = os.environ.get('WWW_HTTP_HOST', 'cabot.example.com')
 ALERT_INTERVAL = os.environ.get('ALERT_INTERVAL', 10)
 NOTIFICATION_INTERVAL = os.environ.get('NOTIFICATION_INTERVAL', 120)
+NUM_STATUS_CHECK_RESULTS = os.environ.get('NUM_STATUS_CHECK_RESULTS', 0)

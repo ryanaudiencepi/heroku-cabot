@@ -33,13 +33,20 @@ logger = logging.getLogger(__name__)
 
 @task(ignore_result=True)
 def run_status_check(check_or_id):
-  from .models import StatusCheck
+  from .models import StatusCheck, StatusCheckResult
   if not isinstance(check_or_id, StatusCheck):
     check = StatusCheck.objects.get(id=check_or_id)
   else:
     check = check_or_id
   # This will call the subclass method
   check.run()
+  keep_count = settings.NUM_STATUS_CHECK_RESULTS
+  if keep_count > 0:
+    logger.info("Purging old status check results")
+    objects_to_keep = 
+      StatusCheckResult.objects.all().order_by('-time_complete')[:keep_count]
+    StatusCheckResult.objects.exclude(pk__in=objects_to_keep).delete()
+
 
 
 @task(ignore_result=True)
