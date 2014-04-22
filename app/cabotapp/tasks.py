@@ -43,8 +43,7 @@ def run_status_check(check_or_id):
   keep_count = settings.NUM_STATUS_CHECK_RESULTS
   if keep_count > 0:
     logger.info("Purging old status check results")
-    objects_to_keep = 
-      StatusCheckResult.objects.all().order_by('-time_complete')[:keep_count]
+    objects_to_keep = StatusCheckResult.objects.all().order_by('-time_complete')[:keep_count]
     StatusCheckResult.objects.exclude(pk__in=objects_to_keep).delete()
 
 
