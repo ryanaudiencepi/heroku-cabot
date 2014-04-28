@@ -72,7 +72,7 @@ def update_services(ignore_result=True):
 
 @task(ignore_result=True)
 def update_service(service_or_id):
-  from .models import Service
+  from .models import Service, ServiceStatusSnapshot
   if not isinstance(service_or_id, Service):
     service = Service.objects.get(id=service_or_id)
   else:
