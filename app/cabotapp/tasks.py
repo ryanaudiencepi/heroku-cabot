@@ -78,6 +78,11 @@ def update_service(service_or_id):
   else:
     service = service_or_id
   service.update_status()
+  keep_count = settings.NUM_STATUS_CHECK_RESULTS
+  if keep_count > 0:
+    logger.info("Purging old service status snapshot results")
+    objects_to_keep = ServiceStatusSnapshot.objects.all().order_by('-time')[:keep_count]
+    ServiceStatusSnapshot.objects.exclude(pk__in=objects_to_keep).delete()
 
 
 @task(ignore_result=True)
