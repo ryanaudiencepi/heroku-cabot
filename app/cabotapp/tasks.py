@@ -33,13 +33,19 @@ logger = logging.getLogger(__name__)
 
 @task(ignore_result=True)
 def run_status_check(check_or_id):
-  from .models import StatusCheck
+  from .models import StatusCheck, StatusCheckResult
   if not isinstance(check_or_id, StatusCheck):
     check = StatusCheck.objects.get(id=check_or_id)
   else:
     check = check_or_id
   # This will call the subclass method
   check.run()
+  keep_count = settings.NUM_STATUS_CHECK_RESULTS
+  if keep_count > 0:
+    logger.info("Purging old status check results")
+    objects_to_keep = StatusCheckResult.objects.all().order_by('-time_complete')[:keep_count]
+    StatusCheckResult.objects.exclude(pk__in=objects_to_keep).delete()
+
 
 
 @task(ignore_result=True)
@@ -66,12 +72,17 @@ def update_services(ignore_result=True):
 
 @task(ignore_result=True)
 def update_service(service_or_id):
-  from .models import Service
+  from .models import Service, ServiceStatusSnapshot
   if not isinstance(service_or_id, Service):
     service = Service.objects.get(id=service_or_id)
   else:
     service = service_or_id
   service.update_status()
+  keep_count = settings.NUM_STATUS_CHECK_RESULTS
+  if keep_count > 0:
+    logger.info("Purging old service status snapshot results")
+    objects_to_keep = ServiceStatusSnapshot.objects.all().order_by('-time')[:keep_count]
+    ServiceStatusSnapshot.objects.exclude(pk__in=objects_to_keep).delete()
 
 
 @task(ignore_result=True)
